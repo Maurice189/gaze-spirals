@@ -10,11 +10,9 @@ def get_radius(angle, height):
 
 def set_scanline(spiral, line, num_sample, kwargs):
     LINE_HEIGHT = kwargs['LINE_HEIGHT']
+    LINE_WIDTH = kwargs['LINE_WIDTH']
     ANGLE_K = kwargs['ANGLE_K']
-
     spiralsize = spiral.shape[0]
-    height = line.shape[0]
-    slitscan_width = (line.shape[1] - 1) // 2
 
     angle = get_angle(num_sample, ANGLE_K)
     radius = get_radius(angle, LINE_HEIGHT)
@@ -25,12 +23,12 @@ def set_scanline(spiral, line, num_sample, kwargs):
     xpos = int(xpos + spiralsize / 2)
     ypos = int(ypos + spiralsize / 2)
 
-    rot_mat = cv.getRotationMatrix2D((height, height), 90-np.degrees(angle), 1)
+    rot_mat = cv.getRotationMatrix2D((LINE_HEIGHT, LINE_HEIGHT), 90-np.degrees(angle), 1)
 
-    dst_patch = spiral[(ypos-height): (ypos+height), (xpos-height): (xpos+height)]
-    src_patch = np.zeros((2*height, 2*height, 4), dtype=np.uint8)
-    src_patch[height:, height-slitscan_width: (height)+slitscan_width+1, :] = line
-    src_patch = cv.warpAffine(src_patch, rot_mat, (2*height, 2*height), flags=cv.WARP_FILL_OUTLIERS)
+    dst_patch = spiral[(ypos-LINE_HEIGHT): (ypos+LINE_HEIGHT), (xpos-LINE_HEIGHT): (xpos+LINE_HEIGHT)]
+    src_patch = np.zeros((2*LINE_HEIGHT, 2*LINE_HEIGHT, 4), dtype=np.uint8)
+    src_patch[LINE_HEIGHT:, LINE_HEIGHT-LINE_WIDTH: (LINE_HEIGHT)+LINE_WIDTH+1, :] = line
+    src_patch = cv.warpAffine(src_patch, rot_mat, (2*LINE_HEIGHT, 2*LINE_HEIGHT), flags=cv.INTER_NEAREST)
 
     src_set = src_patch != 0
     dst_set = dst_patch != 0

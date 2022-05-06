@@ -106,7 +106,7 @@ def scanlines_from_device(device, kwargs):
             scanline = scanline * 0.9
 
         scanline = scanline.astype(np.uint8)
-        scanline = cv.resize(scanline, (2*LINE_WIDTH+1, LINE_HEIGHT))
+        scanline = cv.resize(scanline, (2*LINE_WIDTH+1, LINE_HEIGHT), interpolation=cv.INTER_CUBIC)
 
         #cv2.imshow('scene_camera', scanline)
         #cv2.waitKey(1)
