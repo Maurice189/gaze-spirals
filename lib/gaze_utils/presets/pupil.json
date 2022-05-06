@@ -1,0 +1,34 @@
+{
+  "separator": ",",
+  "skip_header_lines": 1,
+  "comment": "#",
+  "columns": [
+    {
+      "position": 0,
+      "mappedTo": "TIME_MS"
+    },
+    {
+      "position": 1,
+      "mappedTo": "FRAME"
+    },
+    {
+      "position": 3,
+      "mappedTo": "GAZE X"
+    },
+    {
+      "position": 4,
+      "mappedTo": "GAZE Y"
+    }
+  ],
+
+  "column_transform": [
+    {
+      "column": "GAZE Y",
+      "linear-coeff": {"a": -1.0, "b": 1.0}
+    },
+    {
+      "column": "TIME_MS",
+      "linear-coeff": {"a": 1000, "b": 0.0}
+    }
+  ]
+}

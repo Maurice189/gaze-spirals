@@ -1,0 +1,52 @@
+{
+  "separator" : "\t",
+  "skip_header_lines" : 0,
+  "comment" : "**",
+
+  "special_lines": [
+    {
+      "pattern": "^[SE]FIX",
+      "mappedTo": "FIXATION"
+    },
+    {
+      "pattern": "^[SE]SACC",
+      "mappedTo": "SACCADE"
+
+    },
+    {
+      "pattern": "^[SE]BLINK",
+      "mappedTo": "BLINK"
+    },
+    {
+      "pattern": "^[^0-9]+",
+      "mappedTo": "MISC-1"
+    },
+    {
+      "pattern": ".*\\s+\\.\\s+.*",
+      "mappedTo": "MISC-2"
+    }
+  ],
+
+  "columns": [
+    {
+      "position": 0,
+      "mappedTo": "TIME_MS"
+    },
+    {
+      "position": 1,
+      "mappedTo": "LEFT GAZE X"
+    },
+    {
+      "position": 2,
+      "mappedTo": "LEFT GAZE Y"
+    },
+    {
+      "position": 4,
+      "mappedTo": "RIGHT GAZE X"
+    },
+    {
+      "position": 5,
+      "mappedTo": "RIGHT GAZE Y"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "separator": "\t",
+  "skip_header_lines": 1,
+  "comment": "#",
+  "columns": [
+    {
+      "position": 0,
+      "mappedTo": "TIME_MS"
+    },
+    {
+      "position": 5,
+      "mappedTo": "FRAME"
+    },
+    {
+      "position": 3,
+      "mappedTo": "LEFT GAZE X"
+    },
+    {
+      "position": 4,
+      "mappedTo": "LEFT GAZE Y"
+    },
+    {
+      "position": 7,
+      "mappedTo": "EVENT"
+    }
+  ]
+}
