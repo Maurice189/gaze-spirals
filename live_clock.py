@@ -3,7 +3,7 @@ import numpy as np
 import json
 
 import argparse
-from spiral import create_spiral, blank_spiral, blank_clock, create_clock
+from spiral import blank_clock, create_clock
 from slitscan import scanlines_from_device
 
 parser = argparse.ArgumentParser()
@@ -19,7 +19,7 @@ print(f"Battery level: {device.battery_level_percent}%")
 print(f"Free storage: {device.memory_num_free_bytes / 1024**3:.1f} GB")
 print(f"Serial number of connected glasses: {device.serial_number_glasses}")
 
-with open('config_clock.json', 'r') as clock_file:
+with open('configurations/config_clock.json', 'r') as clock_file:
     clock_config = json.load(clock_file)
 
     #spiral = blank_spiral(slitscans['global'], kwargs)
@@ -28,4 +28,4 @@ with open('config_clock.json', 'r') as clock_file:
     #spiral = create_spiral(scanlines, spiral, kwargs, live_preview=args.live_preview)
 
     scanlines = scanlines_from_device(device, clock_config['slitscan'])
-    create_clock(scanlines, spiral, clock_config, live_preview=args.live_preview)
+    create_clock(scanlines, spiral, clock_config)

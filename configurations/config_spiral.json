@@ -1,0 +1,13 @@
+{
+    "slitscan": {
+        "type": "gaze",
+        "LINE_WIDTH": 16,
+        "LINE_HEIGHT": 300,
+        "SAMPLING": 1,
+        "VERTICAL_FOCUS": 0.7,
+        "VERTICAL_CROP": 50,
+        "SPECOGRAM_HEIGHT": 0
+    },
+
+    "ANGLE_K": 0.8
+}

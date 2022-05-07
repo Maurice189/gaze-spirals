@@ -2,14 +2,13 @@ import cv2 as cv
 import numpy as np
 from tqdm import tqdm
 
+def create_blank(width, height, rgb_color=(50, 50, 50)):
+    image = np.zeros((width, height, 3), np.uint8)
+    color = tuple(reversed(rgb_color))
+    image[:] = color
+    return image    
 
 def create_slitscan(video, gaze, kwargs):
-    def create_blank(width, height, rgb_color=(50, 50, 50)):
-        image = np.zeros((width, height, 3), np.uint8)
-        color = tuple(reversed(rgb_color))
-        image[:] = color
-        return image    
-
     def get_pos(num_sample):
         return LINE_WIDTH+(LINE_WIDTH*2+1)*num_sample
 
@@ -63,6 +62,43 @@ def create_slitscan(video, gaze, kwargs):
     return {'global': slitScan_global, 'center': slitScan_center, 'normal': slitScan}
 
 
+def scanlines_from_files(video, gaze, kwargs):
+    LINE_WIDTH = kwargs['LINE_WIDTH']
+    LINE_HEIGHT = kwargs['LINE_HEIGHT']
+    VERTICAL_CROP = kwargs['VERTICAL_CROP']
+    VERTICAL_FOCUS = kwargs['VERTICAL_FOCUS']
+    SPECTOGRAM_HEIGHT = kwargs['SPECTOGRAM_HEIGHT']
+
+    off_center = int((1-VERTICAL_FOCUS)*LINE_HEIGHT)
+    aspect = video.videoWidth / video.videoHeight
+    videoWidth = int(LINE_HEIGHT*aspect)
+    videoHeight = LINE_HEIGHT
+
+    for num_frame in tqdm(range(int(video.videoCaptureFrameCount)), desc='create_slitscan', unit='Frame'):
+        img = video.getFrame(num_frame)
+        img = cv.resize(img, (videoWidth, videoHeight), interpolation=cv.INTER_CUBIC)
+
+        entries = gaze[gaze['FRAME'] == num_frame]
+        if entries.shape[0] > 0:
+            pos_x = entries.iloc[0]['GAZE X']
+            pos_y = entries.iloc[0]['GAZE Y']
+
+            pos_x = int(pos_x*videoWidth/video.videoWidth)
+            pos_y = int(pos_y*videoHeight/video.videoHeight)
+        else:
+            pos_x = pos_y = -1
+
+        center_x = int(videoWidth // 2) 
+        scanline_center = img[:,center_x-LINE_WIDTH:center_x+LINE_WIDTH+1]
+
+        if pos_x >= LINE_WIDTH and pos_x < videoWidth-LINE_WIDTH and pos_y >= VERTICAL_CROP and pos_y < videoHeight-VERTICAL_CROP:
+            scanline_global = img[:, pos_x-LINE_WIDTH:pos_x+LINE_WIDTH+1]
+            scanline = img[:, pos_x-LINE_WIDTH:pos_x+LINE_WIDTH+1]
+            scanline[:pos_y-off_center] = scanline[:pos_y-off_center] * 0.7
+            scanline[pos_y+off_center:] = scanline[pos_y+off_center: ] * 0.7
+                 
+    return {'global': scanline_global, 'center': scanline_center, 'normal': scanline}
+
 
 def scanlines_from_slitscan(slitscan, kwargs):
     LINE_WIDTH = kwargs['LINE_WIDTH']
@@ -77,7 +113,7 @@ def scanlines_from_slitscan(slitscan, kwargs):
                 line[..., 3] = 255
 
                 t.update(SAMPLING)
-                yield (num_sample / 30), line
+                yield line
 
 
 def scanlines_from_device(device, kwargs):
@@ -89,6 +125,7 @@ def scanlines_from_device(device, kwargs):
 
     while True:
         scene_sample, gaze_sample = device.receive_matched_scene_video_frame_and_gaze()
+        dt = scene_sample.timestamp_unix_seconds
         img = scene_sample.bgr_pixels
 
         pos_x = int(gaze_sample.x)
@@ -110,4 +147,4 @@ def scanlines_from_device(device, kwargs):
 
         #cv2.imshow('scene_camera', scanline)
         #cv2.waitKey(1)
-        yield scanline
+        yield dt, scanline

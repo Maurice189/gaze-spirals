@@ -34,7 +34,7 @@ def clock_set_scanline(spiral, line, radius, angle, kwargs, shade=False):
 
     src_set = src_patch != 0
     if shade:
-        dst_patch[src_set] = (dst_patch[src_set]*1.5).astype(np.uint8)
+        dst_patch[src_set] = (dst_patch[src_set]*1.1).astype(np.uint8)
     else:
         dst_patch[src_set] = src_patch[src_set]
 
@@ -101,7 +101,7 @@ def create_clock(scanlines, spiral, config):
         for ring_nr, ring_config in enumerate(config['rings']):
             ring_nr += 1
 
-            for t in (timestamp, timestamp+0.05):
+            for t in (timestamp, ):
                 y = t % (config['time-unit']**ring_nr)
                 y = 360*y/(config['time-unit']**ring_nr)
                 y *= ring_config['radial-speed']
