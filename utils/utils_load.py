@@ -1,5 +1,8 @@
 import cv2 as cv
 import numpy as np
+import json
+
+from lib.gaze_utils.load import parse_gaze
 
 class VideoReader():
     """This class reads video data"""
@@ -27,3 +30,22 @@ class VideoReader():
             frame = np.zeros((self.videoHeight, self.videoWidth, 3), np.uint8)
             self.lastFrame=0
         return frame
+
+
+class GazeReader:
+    def __init__(self, gaze, config_file):
+        config = json.load(config_file)
+        gaze, special_lines = parse_gaze(gaze, config)
+
+        self.gaze = gaze
+        self.gaze['FRAME'] = self.gaze['FRAME'].astype(int)
+        self.special_lines = special_lines
+
+    def getGaze(self, fnr):
+        entries = self.gaze[self.gaze['FRAME'] == fnr]
+        if entries.shape[0] > 0:
+            pos_x = int(entries.iloc[0]['GAZE X'])
+            pos_y = int(entries.iloc[0]['GAZE Y'])
+        else:
+            pos_x = pos_y = -1
+        return pos_x, pos_y

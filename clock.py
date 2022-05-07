@@ -3,8 +3,8 @@ import numpy as np
 import json
 
 import argparse
-from spiral import blank_clock, create_clock
-from slitscan import scanlines_from_device
+from utils.utils_spiral import blank_clock, create_clock
+from linear import scanlines_from_device
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--ip', required=True, type=str)
