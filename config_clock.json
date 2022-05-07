@@ -1,0 +1,29 @@
+{
+    "slitscan": {
+        "type": "gaze",
+        "LINE_WIDTH": 22,
+        "LINE_HEIGHT": 300,
+        "SAMPLING": 1,
+        "VERTICAL_FOCUS": 0.7,
+        "VERTICAL_CROP": 50
+    },
+
+    "window-width": 1000,
+    "window-height": 1000,
+    "delay-ms": 1,
+
+    "border-width": 15,
+    "border-color": "#111111",
+    "time-unit": 60, 
+    "rings": [
+        {
+            "radial-speed": 20
+        },
+        {
+            "radial-speed": 50
+        },
+        {
+            "radial-speed": 1000
+        }
+    ]
+}

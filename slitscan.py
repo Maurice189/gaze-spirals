@@ -77,7 +77,7 @@ def scanlines_from_slitscan(slitscan, kwargs):
                 line[..., 3] = 255
 
                 t.update(SAMPLING)
-                yield line
+                yield (num_sample / 30), line
 
 
 def scanlines_from_device(device, kwargs):
