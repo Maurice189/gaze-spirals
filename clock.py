@@ -2,8 +2,8 @@ import json
 import argparse
 
 from pupil_labs.realtime_api.simple import Device
-from utils.utils_spiral import blank_clock, create_clock
-from utils.utils_linear import scanlines_from_device
+from utils.utils_clock import blank_clock, create_clock
+from utils.utils_linear import scanlines_from_pupil_device
 
 
 parser = argparse.ArgumentParser()
@@ -21,5 +21,5 @@ print(f"Serial number of connected glasses: {device.serial_number_glasses}")
 with open('configurations/config_clock.json', 'r') as clock_file:
     clock_config = json.load(clock_file)
     spiral = blank_clock(clock_config)
-    scanlines = scanlines_from_device(device, clock_config['slitscan'])
+    scanlines = scanlines_from_pupil_device(device, clock_config['slitscan'])
     create_clock(scanlines, spiral, clock_config)

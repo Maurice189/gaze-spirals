@@ -1,6 +1,5 @@
+__pycache__/
 .venv/
 .env/
-__pycache__/
-*.png
 .vscode/
 .DS_Store

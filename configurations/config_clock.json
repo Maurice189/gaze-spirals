@@ -1,11 +1,11 @@
 {
     "slitscan": {
         "type": "gaze",
-        "LINE_WIDTH": 16,
-        "LINE_HEIGHT": 300,
-        "SAMPLING": 1,
-        "VERTICAL_FOCUS": 0.7,
-        "VERTICAL_CROP": 50
+        "line_width": 16,
+        "line_height": 300,
+        "sampling": 1,
+        "vertical_focus": 0.5,
+        "vertical_crop": 50
     },
 
     "window-width": 1200,

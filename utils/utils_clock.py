@@ -1,8 +1,10 @@
 import numpy as np
 import cv2 as cv
 
+
 def get_angle(num_sample, angle_k):
     return np.radians(pow(num_sample, angle_k))
+
 
 def get_radius(angle, height):
     return height*angle / (2*np.pi)
@@ -14,9 +16,10 @@ def hex2bgr(hex_str):
     b = int(hex_str[5:7], 16)
     return np.array([b, g, r])
 
+
 def clock_set_scanline(spiral, line, radius, angle, kwargs, shade=False):
-    LINE_HEIGHT = kwargs['LINE_HEIGHT']
-    LINE_WIDTH = kwargs['LINE_WIDTH']
+    line_height = kwargs['line_height']
+    line_width = kwargs['line_width']
     spiralsize = spiral.shape[0]
 
     xpos = np.cos(angle) * radius
@@ -25,12 +28,12 @@ def clock_set_scanline(spiral, line, radius, angle, kwargs, shade=False):
     xpos = int(xpos + spiralsize / 2)
     ypos = int(ypos + spiralsize / 2)
 
-    rot_mat = cv.getRotationMatrix2D((LINE_HEIGHT, LINE_HEIGHT), 90-np.degrees(angle), 1)
-    dst_patch = spiral[(ypos-LINE_HEIGHT): (ypos+LINE_HEIGHT), (xpos-LINE_HEIGHT): (xpos+LINE_HEIGHT)]
+    rot_mat = cv.getRotationMatrix2D((line_height, line_height), 90-np.degrees(angle), 1)
+    dst_patch = spiral[(ypos-line_height): (ypos+line_height), (xpos-line_height): (xpos+line_height)]
 
-    src_patch = np.zeros((2*LINE_HEIGHT, 2*LINE_HEIGHT, 4), dtype=np.uint8)
-    src_patch[LINE_HEIGHT:, LINE_HEIGHT-LINE_WIDTH: (LINE_HEIGHT)+LINE_WIDTH+1, :] = line
-    src_patch = cv.warpAffine(src_patch, rot_mat, (2*LINE_HEIGHT, 2*LINE_HEIGHT), flags=cv.INTER_NEAREST)
+    src_patch = np.zeros((2*line_height, 2*line_height, 4), dtype=np.uint8)
+    src_patch[line_height:, line_height-line_width: (line_height)+line_width+1, :] = line
+    src_patch = cv.warpAffine(src_patch, rot_mat, (2*line_height, 2*line_height), flags=cv.INTER_NEAREST)
 
     src_set = src_patch != 0
     if shade:
@@ -57,14 +60,13 @@ def create_clock(scanlines, spiral, config):
 
         for ring_nr, ring_config in enumerate(config['rings']):
             ring_nr += 1
-
             for t in (timestamp, ):
                 y = t % (config['time-unit']**ring_nr)
                 y = 360*y/(config['time-unit']**ring_nr)
                 y *= ring_config['radial-speed']
 
                 angle = get_angle(y, angle_k=1)
-                radius = get_radius(2*np.pi*ring_nr, config['slitscan']['LINE_HEIGHT'])
+                radius = get_radius(2*np.pi*ring_nr, config['slitscan']['line_height'])
 
                 if t > timestamp:
                     blank_line = np.ones_like(line)
@@ -78,17 +80,17 @@ def create_clock(scanlines, spiral, config):
 
 
 def blank_clock(config):
-    LINE_HEIGHT = config['slitscan']['LINE_HEIGHT']
-    LINE_WIDTH = config['slitscan']['LINE_WIDTH']
+    line_height = config['slitscan']['line_height']
+    line_width = config['slitscan']['line_width']
 
     border_width = int(config['border-width'])
     border_color = hex2bgr(config['border-color'])
 
-    spiralsize = int(2*get_radius(8*np.pi, LINE_HEIGHT))
+    spiralsize = int(2*get_radius(8*np.pi, line_height))
     spiral = np.zeros((spiralsize, spiralsize, 4), dtype=np.uint8)
 
     for angle in range(360):
-        line = np.zeros((LINE_HEIGHT, 2*LINE_WIDTH+1, 4))
+        line = np.zeros((line_height, 2*line_width+1, 4))
         line[..., :3] = 20
         line[..., 3] = 255
 
@@ -97,14 +99,13 @@ def blank_clock(config):
 
         angle = get_angle(angle, angle_k=1)
 
-        radius = get_radius(2*np.pi, LINE_HEIGHT)
+        radius = get_radius(2*np.pi, line_height)
         clock_set_scanline(spiral, line, radius, angle, config['slitscan'])
 
-        radius = get_radius(4*np.pi, LINE_HEIGHT)
+        radius = get_radius(4*np.pi, line_height)
         clock_set_scanline(spiral, line, radius, angle, config['slitscan'])
 
-        radius = get_radius(6*np.pi, LINE_HEIGHT)
+        radius = get_radius(6*np.pi, line_height)
         clock_set_scanline(spiral, line, radius, angle, config['slitscan'])
-        
     return spiral
 
