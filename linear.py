@@ -3,9 +3,8 @@ import json
 import cv2 as cv
 import numpy as np
 
-from utils.utils_slitscan import scanlines_from_files
+from utils.utils_linear import scanlines_from_files
 from utils.utils_load import VideoReader, GazeReader
-
 from linear import scanlines_from_files
 from tqdm import tqdm
 
@@ -15,7 +14,6 @@ def create_blank(width, height, rgb_color=(50, 50, 50)):
     color = tuple(reversed(rgb_color))
     image[:] = color
     return image    
-
 
 def linear_slitscan(video, gaze, kwargs):
     LINE_WIDTH = kwargs['LINE_WIDTH']
@@ -44,7 +42,7 @@ if __name__ == '__main__':
         gaze = GazeReader(args.gaze, f)
         video = VideoReader(args.video)
 
-        with open('configurations/config_spiral.json', 'r') as clock_file:
+        with open('configurations/config_linear.json', 'r') as clock_file:
             spiral_config = json.load(clock_file)
             slitscan = linear_slitscan(video, gaze, spiral_config['slitscan'])
             cv.imwrite('slitscan.png', slitscan)

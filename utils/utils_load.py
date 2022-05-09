@@ -4,7 +4,8 @@ import json
 
 from lib.gaze_utils.load import parse_gaze
 
-class VideoReader():
+
+class VideoReader:
     """This class reads video data"""
     def __init__(self, filename):
         self.videoCapture = cv.VideoCapture(filename)  
