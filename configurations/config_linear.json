@@ -1,0 +1,9 @@
+{
+    "source": "gaze-local",
+    "LINE_WIDTH": 16,
+    "LINE_HEIGHT": 300,
+    "SAMPLING": 1,
+    "VERTICAL_FOCUS": 0.7,
+    "VERTICAL_CROP": 50,
+    "SPECTOGRAM_HEIGHT": 0
+}

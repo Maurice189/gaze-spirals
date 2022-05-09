@@ -9,14 +9,12 @@ def transform_frame(img, new_height):
     videoHeight = new_height
     return cv.resize(img, (videoWidth, videoHeight), interpolation=cv.INTER_CUBIC)
 
-
 def transform_gaze(gaze, new_size, old_size):
     pos_x, pos_y = gaze
     new_width, new_height = new_size
     old_width, old_height = old_size
 
     return int(pos_x*new_width/old_width), int(pos_y*new_height/old_height)
-
 
 def scanlines_from_files(video, gaze, kwargs):
     SLITSAN_SOURCE = kwargs['source']
@@ -56,7 +54,6 @@ def scanlines_from_files(video, gaze, kwargs):
                 yield scanline
         else:
             raise ValueError(f'Unknown slitscan source: {SLITSAN_SOURCE}')
-
 
 
 def scanlines_from_Pupil_device(device, kwargs):

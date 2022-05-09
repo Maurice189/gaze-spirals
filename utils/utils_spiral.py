@@ -1,6 +1,7 @@
 import cv2 as cv
 import numpy as np
 
+
 def get_angle(num_sample, angle_k):
     return np.radians(pow(num_sample, angle_k))
 
