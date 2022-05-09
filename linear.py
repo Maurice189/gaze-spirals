@@ -47,4 +47,18 @@ if __name__ == '__main__':
         with open('configurations/config_spiral.json', 'r') as clock_file:
             spiral_config = json.load(clock_file)
             slitscan = linear_slitscan(video, gaze, spiral_config['slitscan'])
+
+            line_width = 4000
+            line_height = spiral_config['slitscan']['LINE_HEIGHT']
+
+            num_lines = slitscan.shape[1] // line_width
+            multiline_slitscan = np.zeros((num_lines*spiral_config['slitscan']['LINE_HEIGHT'], line_width, 3), np.uint8)
+
+            off_x = off_y = 0
+            for _ in range(num_lines):
+                multiline_slitscan[off_y: off_y+line_height] = slitscan[:, off_x: off_x+line_width]
+                off_x += line_width
+                off_y += line_height
+
             cv.imwrite('slitscan.png', slitscan)
+            cv.imwrite('multiline_slitscan.png', multiline_slitscan)

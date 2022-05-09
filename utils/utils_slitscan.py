@@ -14,6 +14,7 @@ def transform_gaze(gaze, new_size, old_size):
     pos_x, pos_y = gaze
     new_width, new_height = new_size
     old_width, old_height = old_size
+
     return int(pos_x*new_width/old_width), int(pos_y*new_height/old_height)
 
 
@@ -31,7 +32,7 @@ def scanlines_from_files(video, gaze, kwargs):
 
         if SLITSAN_SOURCE == 'center':
             img = transform_frame(img, LINE_HEIGHT)
-            pos_x, pos_y = transform_gaze((pos_x, pos_y), img.shape[:2], img.shape[:2])
+            pos_x, pos_y = transform_gaze((pos_x, pos_y), new_size=(img.shape[1], img.shape[0]), old_size=(video.videoHeight, video.videoWidth))
 
             center_x = int(img.shape[1] // 2) 
             scanline = img[:,center_x-LINE_WIDTH:center_x+LINE_WIDTH+1]
@@ -46,7 +47,7 @@ def scanlines_from_files(video, gaze, kwargs):
 
         elif SLITSAN_SOURCE == 'gaze-global':
             img = transform_frame(img, LINE_HEIGHT)
-            pos_x, pos_y = transform_gaze((pos_x, pos_y), img.shape[:2], img.shape[:2])
+            pos_x, pos_y = transform_gaze((pos_x, pos_y), new_size=(img.shape[1], img.shape[0]), old_size=(video.videoHeight, video.videoWidth))
 
             if pos_x>= LINE_WIDTH and pos_x < img.shape[1]-LINE_WIDTH:
                 scanline = img[:, pos_x-LINE_WIDTH:pos_x+LINE_WIDTH+1]
