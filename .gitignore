@@ -3,3 +3,4 @@
 __pycache__/
 *.png
 .vscode/
+.DS_Store
