@@ -1,4 +1,5 @@
 import cv2 as cv
+import numpy as np
 import time
 
 
@@ -41,16 +42,19 @@ def extract_scanline(img, gaze, kwargs):
             scanline = img[center_y-vertical_crop: center_y+vertical_crop, pos_x-line_width:pos_x+line_width+1]
             scanline = cv.resize(scanline, (2*line_width+1, line_height), interpolation=cv.INTER_CUBIC)
             return scanline
+        else:
+            return np.zeros((line_height, 2*line_width+1, 3), np.uint8)
 
     elif SLITSAN_SOURCE == 'gaze-global':
         img = transform_frame(img, line_height)
         pos_x, pos_y = transform_gaze((pos_x, pos_y), new_size=(img.shape[1], img.shape[0]), old_size=old_size)
-
-        if pos_x>= line_width and pos_x < img.shape[1]-line_width:
+        if pos_x >= line_width and pos_x < img.shape[1]-line_width:
             scanline = img[:, pos_x-line_width:pos_x+line_width+1]
             scanline[:pos_y-off_center] = scanline[:pos_y-off_center] * 0.7
             scanline[pos_y+off_center:] = scanline[pos_y+off_center: ] * 0.7
             return scanline
+        else:
+            return np.zeros((line_height, 2*line_width+1, 3), np.uint8)
     else:
         raise ValueError(f'Unknown slitscan source: {SLITSAN_SOURCE}')
 
