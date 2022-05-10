@@ -1,7 +1,7 @@
 {
     "slitscan": {
-        "type": "gaze",
-        "line_width": 16,
+        "source": "center",
+        "line_width": 4,
         "line_height": 300,
         "sampling": 1,
         "vertical_focus": 0.5,
@@ -17,13 +17,13 @@
     "time-unit": 60, 
     "rings": [
         {
-            "radial-speed": 3
+            "radial-speed": 1
         },
         {
-            "radial-speed": 30
+            "radial-speed": 10
         },
         {
-            "radial-speed": 500
+            "radial-speed": 100
         }
     ]
 }
