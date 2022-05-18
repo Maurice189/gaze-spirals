@@ -2,8 +2,8 @@
 
 <img src="teaser.png" width="500" height="500">
 
-This is the official code repository to our paper **A Spiral into the Mind: Gaze Spiral Visualization for Mobile Eye Tracking**.
-You can find a post-print of our work on arXiv: https://arxiv.org/abs/2204.13494.
+This is the official code repository to our paper **A Spiral into the Mind: Gaze Spiral Visualization for Mobile Eye Tracking** published in the Proceedings of the ACM Computer Graphics and Interactive Techniques (PACMCGIT): https://dl.acm.org/doi/10.1145/3530795.
+You can also find a post-print of our work also on arXiv: https://arxiv.org/abs/2204.13494.
 
 
 ## Overview of scripts
@@ -53,7 +53,7 @@ python clock.py --ip COMPANION_DEVICE_IP
 ## Citation
 
 ```
-@article{10.1145/3530795,
+@article{koch22spiral,
 author = {Koch, Maurice and Weiskopf, Daniel and Kurzhals, Kuno},
 title = {A Spiral into the Mind: Gaze Spiral Visualization for Mobile Eye Tracking},
 year = {2022},
