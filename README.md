@@ -5,6 +5,7 @@
 This is the official code repository to our paper **A Spiral into the Mind: Gaze Spiral Visualization for Mobile Eye Tracking**.
 You can find a post-print of our work on arXiv: https://arxiv.org/abs/2204.13494.
 
+
 ## Overview of scripts
 
 - `spiral.py`: Create a gaze spiral image (.png) from video and gaze input.
@@ -52,11 +53,21 @@ python clock.py --ip COMPANION_DEVICE_IP
 ## Citation
 
 ```
-@article{koch2022spiral,
-  title={A Spiral into the Mind: Gaze Spiral Visualization for Mobile Eye Tracking},
-  author={Koch, Maurice and Weiskopf, Daniel and Kurzhals, Kuno},
-  journal={arXiv preprint arXiv:2204.13494},
-  year={2022}
+@article{10.1145/3530795,
+author = {Koch, Maurice and Weiskopf, Daniel and Kurzhals, Kuno},
+title = {A Spiral into the Mind: Gaze Spiral Visualization for Mobile Eye Tracking},
+year = {2022},
+issue_date = {May 2022},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {5},
+number = {2},
+url = {https://doi.org/10.1145/3530795},
+doi = {10.1145/3530795},
+journal = {Proc. ACM Comput. Graph. Interact. Tech.},
+month = {may},
+articleno = {20},
+numpages = {16},
 }
 ```
 
