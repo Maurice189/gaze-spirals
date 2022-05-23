@@ -45,8 +45,8 @@ def create_spiral(scanlines, spiral, kwargs, live_preview=False):
         num_sample += 1
 
         if live_preview:
-            spiral_downscaled = cv.resize(spiral, (1000, 1000), interpolation=cv.INTER_CUBIC)
-            cv.imshow('spiral', spiral_downscaled)
+            spiral_downscaled = cv.resize(spiral, (1200, 1200), interpolation=cv.INTER_CUBIC)
+            cv.imshow('live preview (scaled)', spiral_downscaled)
             cv.waitKey(1)
     return spiral
 
