@@ -3,7 +3,6 @@
 <img src="teaser.png" width="500" height="500">
 
 This is the official code repository to our paper **A Spiral into the Mind: Gaze Spiral Visualization for Mobile Eye Tracking** published in the Proceedings of the ACM Computer Graphics and Interactive Techniques (PACMCGIT): https://dl.acm.org/doi/10.1145/3530795.
-You can also find a post-print of our work also on arXiv: https://arxiv.org/abs/2204.13494.
 
 
 ## Overview of scripts
