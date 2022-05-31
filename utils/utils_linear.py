@@ -62,33 +62,10 @@ def extract_scanline(img, gaze, kwargs):
 def scanlines_from_files(video, gaze, kwargs):
     dt = time.time()
 
-    num_patches = 3
-    canvas = np.zeros((video.videoHeight, video.videoWidth*num_patches, 3), dtype=np.uint8)
-
     for num_frame in range(int(video.videoCaptureFrameCount)):
         img = video.getFrame(num_frame)
         pos = gaze.getGaze(num_frame)
         dt += 1./video.videoCaptureFrameCount
-
-        pos_x, pos_y = pos
-        line_width = 8
-        if num_frame %  num_patches == num_patches // 2:
-            #img = cv.line(img, (pos_x, 0), (pos_x, video.videoHeight), color=(0, 0, 255), thickness=10, lineType=cv.LINE_AA)
-
-            img[:, :pos_x-line_width] = (img[:, :pos_x-line_width]*.4).astype(np.uint8)
-            img[:, pos_x+line_width:] = (img[:, pos_x+line_width:]*.4).astype(np.uint8)
-            img[:, pos_x-line_width: pos_x+line_width+1] = (img[:, pos_x-line_width: pos_x+line_width+1] * 1.1).astype(np.uint8)
-            
-            img = cv.circle(img, (pos_x, 15), radius=15, color=(0, 255, 255), thickness=-1, lineType=cv.LINE_AA)
-            img = cv.circle(img, (pos_x, video.videoHeight-15), radius=15, color=(0, 255, 255), thickness=-1, lineType=cv.LINE_AA)
-
-
-        canvas[:, (num_frame%num_patches)*video.videoWidth: ((num_frame%num_patches)+1)*video.videoWidth] = img
-        scaled = cv.resize(canvas, (int(400*canvas.shape[1]/canvas.shape[0]), 400))
-
-        cv.imshow('gaze patch', scaled)
-        cv.waitKey(1)
-
         yield int(dt), extract_scanline(img, pos, kwargs)
 
 
